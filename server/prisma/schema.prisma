@@ -1,0 +1,19 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../game.db"
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  value     Int
+  type      String   // 'Init' | 'Bet' | 'Win'
+  timestamp DateTime @default(now())
+
+  @@map("transactions")
+}

@@ -1,20 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { type TransactionType } from '../../types/prisma.types';
 
-// Определение типов транзакций
-export type TransactionType = 'Init' | 'Bet' | 'Win';
-
-@Entity('transactions')
+// Transaction class for compatibility with existing code
+// The actual schema is stored in prisma/schema.prisma
 export class Transaction {
-    @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
+    value: number;
+    type: TransactionType;
+    timestamp: Date;
 
-    @Column('integer')
-    value!: number;
-
-    // Добавляем тип 'text' для SQLite
-    @Column('text')
-    type!: TransactionType;
-
-    @CreateDateColumn()
-    timestamp!: Date;
+    constructor(partial?: Partial<Transaction>) {
+        Object.assign(this, partial);
+    }
 }
+
+export { type TransactionType } from '../../types/prisma.types';

@@ -2,12 +2,12 @@ import { injectable, inject } from 'tsyringe';
 import { TransactionRepository } from '../repositories/transaction.repository';
 import { type RollResultDto } from '../contracts/dto/response/roll-result.dto';
 import { AppError } from '../utils/error/app-error';
-import { checkCombination } from '../utils/game-logic';
+import {checkCombination, rollDice} from '../utils/game-logic';
 
 @injectable()
 export class GameService {
     constructor(
-        @inject('TransactionRepository') private transactionRepository: TransactionRepository
+        @inject(TransactionRepository) private transactionRepository: TransactionRepository
     ) {}
 
     public async initializeGame(): Promise<{ balance: number }> {
@@ -36,9 +36,8 @@ export class GameService {
         await this.transactionRepository.createTransaction(-bet, 'Bet');
 
         // Generate random dice values
-        const dice = Array.from({ length: 6 }, () => Math.floor(Math.random() * 6) + 1);
+        const dice = rollDice();
 
-        // Check combination
         const result = checkCombination(dice);
         let winAmount = 0;
 

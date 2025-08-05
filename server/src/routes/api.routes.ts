@@ -8,10 +8,10 @@ const router = Router();
 const gameController = container.resolve(GameController);
 const transactionController = container.resolve(TransactionController);
 
-// API маршруты
 router.get('/init', (req, res, next) => gameController.initGame(req, res, next));
 router.get('/balance', (req, res, next) => gameController.getBalance(req, res, next));
 router.post('/roll', (req, res, next) => gameController.rollDice(req, res, next));
+router.get('/multipliers', (req, res, next) => gameController.getMultipliers(req, res, next));
 router.get('/transactions', (req, res, next) =>
     transactionController.getAllTransactions(req, res, next)
 );

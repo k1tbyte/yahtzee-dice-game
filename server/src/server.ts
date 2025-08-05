@@ -1,35 +1,34 @@
 // Import polyfills first (this will ensure reflect-metadata is loaded)
-import "./polyfills.js";
+import "./polyfills";
 
 // Now import the rest of your modules
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { initializeDatabase } from './config/database.config.js';
-import { registerDependencies } from './di-container.js';
+import { initializeDatabase } from './config/prisma.config';
+import { registerDependencies } from './di-container';
+import { apiRouter } from './routes/api.routes';
+import {requestLoggerMiddleware} from "./middleware/request-logger.middleware";
+import {initializeMultipliers} from "./utils/game-logic";
 
-// Регистрируем зависимости
-registerDependencies();
 
-// Создаем экспресс приложение
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+app.use(requestLoggerMiddleware);
 
-// Инициализируем БД и запускаем сервер
 async function bootstrap() {
     try {
+        registerDependencies();
+        // Initialize multipliers from config or run RTP analysis
+        await initializeMultipliers();
         await initializeDatabase();
 
-        // Базовый маршрут для проверки
-        app.get('/', (req, res) => {
-            res.send('Yahtzee API is running!');
-        });
-
-        // Здесь позже подключим API маршруты
+        // Подключаем API маршруты
+        app.use('/api', apiRouter);
 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
