@@ -92,23 +92,32 @@ export function getMultipliers(): MultiplierConfig {
  * @returns The result of the combination with the name and multiplier
  */
 export function checkCombination(dice: number[]): CombinationResult {
+    const counts: Record<number, number> = {};
+
+    // Count occurrences of each dice value
+    dice.forEach(value => {
+        counts[value] = (counts[value] || 0) + 1;
+    });
+
+    const valueFrequencies = Object.values(counts).sort((a, b) => b - a);
+
     // Yahtzee - all 6 dice show the same value
-    if (dice[0] === 6) {
+    if (valueFrequencies[0] === 6) {
         return { name: 'Yahtzee', multiplier: MULTIPLIERS.YAHTZEE };
     }
 
     // 4+2 - 4 cubes of one value and 2 of another
-    if (dice.length === 2 && dice[0] === 4 && dice[1] === 2) {
+    if (valueFrequencies.length === 2 && valueFrequencies[0] === 4 && valueFrequencies[1] === 2) {
         return { name: '4+2', multiplier: MULTIPLIERS.FOUR_PLUS_TWO };
     }
 
-    // three pairs of identical values
-    if (dice.length === 3 && dice[0] === 2 && dice[1] === 2 && dice[2] === 2) {
+    // Three Pairs - three pairs of identical values
+    if (valueFrequencies.length === 3 && valueFrequencies[0] === 2 && valueFrequencies[1] === 2 && valueFrequencies[2] === 2) {
         return { name: 'Three Pairs', multiplier: MULTIPLIERS.THREE_PAIRS };
     }
 
     // Pair - at least one pair
-    if (dice[0] >= 2) {
+    if (valueFrequencies[0] >= 2) {
         return { name: 'Pair', multiplier: MULTIPLIERS.PAIR };
     }
 

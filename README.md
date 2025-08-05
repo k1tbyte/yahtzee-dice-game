@@ -84,6 +84,44 @@ The game includes a sophisticated Return To Player (RTP) analyzer in `server/src
 
 When the server starts, it checks for a configuration file. If none exists, it runs the RTP analysis to generate optimal multiplier values. These values are then used for all game sessions until manually reset.
 
+### Initial vs Optimized Multipliers
+
+#### Initial Multipliers (From Requirements)
+```
+Pair:        x1
+4+2:         x2
+Yahtzee:     x3
+Three Pairs: x4
+Other:       x0
+```
+
+#### Analysis Results with Initial Multipliers
+```
+=== RTP Analysis Results (1,000,000 iterations) ===
+Total bets: 10,000,000
+Total wins: 11,091,480
+RTP: 110.91%
+Combination occurrences:
+- Yahtzee: 122 (0.0122%)
+- 4+2: 9,640 (0.9640%)
+- Three Pairs: 38,249 (3.8249%)
+- Pair: 936,506 (93.6506%)
+- Other: 15,483 (1.5483%)
+```
+
+With the initial multipliers, the game would have an RTP of 110.91%, meaning it would operate at a loss for the house. Players would win more than they bet in the long run.
+
+#### Optimized Multipliers (Target RTP: 95%)
+```
+Yahtzee:    x2.53
+4+2:        x1.68
+Three Pairs: x3.38
+Pair:       x0.86
+Other:      x0
+```
+
+These optimized multipliers ensure the game maintains a fair balance, with a theoretical return to players of 95.15% of their total bets over time.
+
 ## Getting Started
 
 ### Prerequisites
@@ -113,7 +151,7 @@ When the server starts, it checks for a configuration file. If none exists, it r
 3. Set up the database:
    ```bash
    cd ../server
-   bun run prisma:generate
+   npx prisma migrate dev --name init
    ```
 
 ### Running the Application
