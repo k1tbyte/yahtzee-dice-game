@@ -1,0 +1,37 @@
+{
+  "name": "yahtzee-server",
+  "version": "1.0.0",
+  "module": "src/server.ts",
+  "description": "Backend for Yahtzee Dice Game",
+  "type": "module",
+  "author": "kitbyte",
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun --preload=reflect-metadata --watch src/server.ts",
+    "start": "bun --preload=reflect-metadata src/server.ts",
+    "migrate:create": "typeorm migration:create ",
+    "migrate:run": "ts-node --transpile-only -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/config/database.config.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.2.0",
+    "@types/sqlite3": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "tsyringe": "^4.10.0",
+    "typeorm": "^0.3.25"
+  }
+}
