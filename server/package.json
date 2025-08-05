@@ -9,6 +9,7 @@
     "build": "tsc",
     "dev": "bun --preload=reflect-metadata --watch src/server.ts",
     "start": "bun --preload=reflect-metadata src/server.ts",
+    "analyze": "bun src/scripts/rtp-analyzer.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",

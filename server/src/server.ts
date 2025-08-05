@@ -27,7 +27,6 @@ async function bootstrap() {
         await initializeMultipliers();
         await initializeDatabase();
 
-        // Подключаем API маршруты
         app.use('/api', apiRouter);
 
         app.listen(PORT, () => {

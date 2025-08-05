@@ -141,7 +141,7 @@ export function runRtpAnalysis(iterations: number = 1000000, targetRtp: number =
   optimizeMultipliers(targetRtp, iterations);
 }
 
-// Запускаем анализ, если файл выполняется напрямую
+// Run analysis if file is executed directly
 if (require.main === module) {
   const targetRtp = process.argv[2] ? Number(process.argv[2]) : 95;
   const iterations = process.argv[3] ? Number(process.argv[3]) : 1000000;
