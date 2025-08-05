@@ -188,3 +188,7 @@ bun run analyze
 - `POST /api/roll`: Place a bet and roll dice
 - `GET /api/multipliers`: Get current payout multipliers
 - `GET /api/transactions`: Get transaction history
+
+## Screenshots
+
+![Demo Screenshot 1](assets/demo.png)
